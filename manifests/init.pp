@@ -3,8 +3,8 @@
 # @summary Manages SQL server configuration
 #
 # @example
-#   include sql_server_mgmt
-class sql_server_mgmt (
+#   include sqlserver_mgmt
+class sqlserver_mgmt (
   $sql_config = lookup('sql', Hash, 'hash', { 'configs' => {}, 'databases' => {}, 'logins' => {}, 'users' => {} })
 ){
   # Define access to SQL instance(s)
@@ -106,7 +106,7 @@ class sql_server_mgmt (
   $sql_config['users'].each |$name, $attribs| {
     if $name != '_default'{
       if $attribs != undef {
-        # Emulate sql_server module behavior: if 'login' is not specified, assume the user and login are the same
+        # Emulate sqlserver module behavior: if 'login' is not specified, assume the user and login are the same
         if $attribs['login'] != undef {
           $sqllogin = $attribs['login']
         }
@@ -124,7 +124,7 @@ class sql_server_mgmt (
         }
       }
       else {
-        # Emulate sql_server module behavior: if 'login' is not specified, assume the user and login are the same
+        # Emulate sqlserver module behavior: if 'login' is not specified, assume the user and login are the same
         if $sql_config['users']['_default']['login'] != undef {
           $sqllogin = $sql_config['users']['_default']['login']
         }

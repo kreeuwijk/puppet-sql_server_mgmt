@@ -1,0 +1,87 @@
+USE [master]
+
+DECLARE @fileListTable TABLE (
+    [LogicalName]           NVARCHAR(128),
+    [PhysicalName]          NVARCHAR(260),
+    [Type]                  CHAR(1),
+    [FileGroupName]         NVARCHAR(128),
+    [Size]                  NUMERIC(20,0),
+    [MaxSize]               NUMERIC(20,0),
+    [FileID]                BIGINT,
+    [CreateLSN]             NUMERIC(25,0),
+    [DropLSN]               NUMERIC(25,0),
+    [UniqueID]              UNIQUEIDENTIFIER,
+    [ReadOnlyLSN]           NUMERIC(25,0),
+    [ReadWriteLSN]          NUMERIC(25,0),
+    [BackupSizeInBytes]     BIGINT,
+    [SourceBlockSize]       INT,
+    [FileGroupID]           INT,
+    [LogGroupGUID]          UNIQUEIDENTIFIER,
+    [DifferentialBaseLSN]   NUMERIC(25,0),
+    [DifferentialBaseGUID]  UNIQUEIDENTIFIER,
+    [IsReadOnly]            BIT,
+    [IsPresent]             BIT,
+    [TDEThumbprint]         VARBINARY(32),
+	[SnapshotUrl]           NVARCHAR(260)
+)
+INSERT INTO @fileListTable EXEC('RESTORE FILELISTONLY FROM DISK = ''<%= $backupfile %>''')
+
+DECLARE @datafile NVARCHAR(128)
+DECLARE @movestrings NVARCHAR(500)
+DECLARE @defaultdatadir NVARCHAR(128)
+DECLARE @defaultlogdir NVARCHAR(128)
+
+SET @movestrings = ''
+
+--Data Files
+SET @defaultdatadir = cast(SERVERPROPERTY('instancedefaultdatapath') as nvarchar(200))
+
+DECLARE MY_CURSOR CURSOR
+  LOCAL STATIC READ_ONLY FORWARD_ONLY
+FOR
+SELECT DISTINCT LogicalName FROM @fileListTable WHERE [Type]='D'
+
+OPEN MY_CURSOR
+FETCH NEXT FROM MY_CURSOR INTO @datafile
+WHILE @@FETCH_STATUS = 0
+BEGIN
+  SET @movestrings = @movestrings + 'MOVE ''' + @datafile + ''' TO ''' + @defaultdatadir + @datafile + '.mdf'','
+  FETCH NEXT FROM MY_CURSOR INTO @datafile
+END
+CLOSE MY_CURSOR
+DEALLOCATE MY_CURSOR
+
+--Log Files
+SET @defaultlogdir = cast(SERVERPROPERTY('instancedefaultlogpath') as nvarchar(200))
+
+DECLARE MY_CURSOR CURSOR
+  LOCAL STATIC READ_ONLY FORWARD_ONLY
+FOR
+SELECT DISTINCT LogicalName FROM @fileListTable WHERE [Type]='L'
+
+OPEN MY_CURSOR
+FETCH NEXT FROM MY_CURSOR INTO @datafile
+WHILE @@FETCH_STATUS = 0
+BEGIN
+  SET @movestrings = @movestrings + 'MOVE ''' + @datafile + ''' TO ''' + @defaultlogdir + @datafile + '.ldf'','
+  FETCH NEXT FROM MY_CURSOR INTO @datafile
+END
+CLOSE MY_CURSOR
+DEALLOCATE MY_CURSOR
+
+DECLARE @restorestring NVARCHAR(1000)
+
+SET @restorestring = 'RESTORE DATABASE <%= $dbname %>
+FROM disk= ''<%= $backupfile %>''
+WITH
+'
+
+SET @restorestring = @restorestring + LEFT(@movestrings, LEN(@movestrings) - 1) + ', REPLACE'
+
+EXEC(@restorestring)
+
+USE [<%= $dbname %>]
+
+exec sp_addextendedproperty  
+     @name = N'restored_by_puppet' 
+    ,@value = SELECT GETDATE()

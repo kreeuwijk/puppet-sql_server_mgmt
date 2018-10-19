@@ -1,0 +1,30 @@
+{
+  "name": "kevinreeuwijk-sql_server_mgmt",
+  "version": "1.0.0",
+  "author": "kevinreeuwijk",
+  "summary": "Manages SQL server configuration",
+  "license": "Apache-2.0",
+  "source": "https://github.com/kreeuwijk/puppet-sql_server_mgmt",
+  "dependencies": [
+
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "windows",
+      "operatingsystemrelease": [
+        "Server 2012",
+        "Server 2012 R2",
+        "Server 2016"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.7.0 < 7.0.0"
+    }
+  ],
+  "pdk-version": "1.7.1",
+  "template-url": "file:///opt/puppetlabs/pdk/share/cache/pdk-templates.git",
+  "template-ref": "1.7.1-0-g810b982"
+}

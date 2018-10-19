@@ -1,0 +1,6 @@
+
+USE [<%= $dbname %>]
+
+exec sp_addextendedproperty  
+     @name = N'templated_by_puppet' 
+    ,@value = SELECT GETDATE()

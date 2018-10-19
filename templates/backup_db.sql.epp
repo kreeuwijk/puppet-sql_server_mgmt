@@ -1,0 +1,15 @@
+USE [master]
+
+DECLARE @backupstring NVARCHAR(1000)
+
+SET @backupstring = 'BACKUP DATABASE <%= $dbname %>
+TO disk= ''<%= $backupfile %>''
+WITH FORMAT;'
+
+EXEC(@backupstring)
+
+USE [<%= $dbname %>]
+
+exec sp_addextendedproperty  
+     @name = N'backed_up_by_puppet' 
+    ,@value = SELECT GETDATE()

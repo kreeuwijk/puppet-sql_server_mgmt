@@ -1,10 +1,10 @@
 {
-  "name": "kevinreeuwijk-sql_server_mgmt",
+  "name": "kevinreeuwijk-sqlserver_mgmt",
   "version": "1.0.0",
   "author": "kevinreeuwijk",
   "summary": "Manages SQL server configuration",
   "license": "Apache-2.0",
-  "source": "https://github.com/kreeuwijk/puppet-sql_server_mgmt",
+  "source": "https://github.com/kreeuwijk/puppet-sqlserver_mgmt",
   "dependencies": [
 
   ],

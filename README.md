@@ -8,10 +8,10 @@ The README template below provides a starting point with details about what info
 #### Table of Contents
 
 1. [Description](#description)
-2. [Setup - The basics of getting started with sql_server_mgmt](#setup)
-    * [What sql_server_mgmt affects](#what-sql_server_mgmt-affects)
+2. [Setup - The basics of getting started with sqlserver_mgmt](#setup)
+    * [What sqlserver_mgmt affects](#what-sqlserver_mgmt-affects)
     * [Setup requirements](#setup-requirements)
-    * [Beginning with sql_server_mgmt](#beginning-with-sql_server_mgmt)
+    * [Beginning with sqlserver_mgmt](#beginning-with-sqlserver_mgmt)
 3. [Usage - Configuration options and additional functionality](#usage)
 4. [Limitations - OS compatibility, etc.](#limitations)
 5. [Development - Guide for contributing to the module](#development)

@@ -1,5 +1,5 @@
 
-# sql_server_mgmt
+# sqlserver_mgmt
 
 Welcome to your new module. A short overview of the generated parts can be found in the PDK documentation at https://puppet.com/pdk/latest/pdk_generating_modules.html .
 
@@ -24,7 +24,7 @@ This should be a fairly short description helps the user decide if your module i
 
 ## Setup
 
-### What sql_server_mgmt affects **OPTIONAL**
+### What sqlserver_mgmt affects **OPTIONAL**
 
 If it's obvious what your module touches, you can skip this section. For example, folks can probably figure out that your mysql_instance module affects their MySQL instances.
 
@@ -40,7 +40,7 @@ If your module requires anything extra before setting up (pluginsync enabled, an
 
 If your most recent release breaks compatibility or requires particular steps for upgrading, you might want to include an additional "Upgrading" section here.
 
-### Beginning with sql_server_mgmt
+### Beginning with sqlserver_mgmt
 
 The very basic steps needed for a user to get the module up and running. This can include setup steps, if necessary, or it can be an example of the most basic use of the module.
 

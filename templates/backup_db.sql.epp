@@ -14,5 +14,5 @@ DECLARE @now datetime
 SET @now = CURRENT_TIMESTAMP
 
 exec sp_addextendedproperty  
-     @name = N'templated_by_puppet' 
+     @name = N'backed_up_by_puppet' 
     ,@value = @now

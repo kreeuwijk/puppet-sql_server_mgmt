@@ -5,10 +5,13 @@
 # @example
 #   include sqlserver_mgmt
 class sqlserver_mgmt (
-  $sql_config = lookup('sql', Hash, 'hash', { 'configs' => {}, 'databases' => {}, 'logins' => {}, 'users' => {} })
+  $configs   = {},
+  $databases = {},
+  $logins    = {},
+  $users     = {},
 ){
   # Define access to SQL instance(s)
-  $sql_config['configs'].each |$name, $attribs| {
+  $configs.each |$name, $attribs| {
     sqlserver::config {
       $name:
         * => $attribs
@@ -16,13 +19,13 @@ class sqlserver_mgmt (
   }
 
   # Create database(s)
-  $sql_config['databases'].each |$name, $attribs| {
+  $databases.each |$name, $attribs| {
     if $name != '_default'{
       if $attribs != undef {
         # Create the database with specified attributes
         sqlserver::database{
           default:
-            *       => $sql_config['databases']['_default']
+            *       => $databases['_default']
             ;
           $name:
             * => delete($attribs, ['template', 'restorefrom', 'backupto'])
@@ -70,7 +73,7 @@ class sqlserver_mgmt (
         # Create the database with only default attributes
         sqlserver::database{
           default:
-            *       => $sql_config['databases']['_default']
+            *       => $databases['_default']
             ;
           $name:
         }
@@ -78,13 +81,13 @@ class sqlserver_mgmt (
     }
   }
   # Create SQL Login(s)
-  $sql_config['logins'].each |$name, $attribs| {
+  $logins.each |$name, $attribs| {
     if $name != '_default'{
       if $attribs != undef {
         # Create the login with specified attributes
         sqlserver::login{
           default:
-            *       => $sql_config['logins']['_default']
+            *       => $logins['_default']
             ;
           $name:
             * => $attribs
@@ -94,7 +97,7 @@ class sqlserver_mgmt (
         # Create the login with only default attributes
         sqlserver::login{
           default:
-            *       => $sql_config['logins']['_default']
+            *       => $logins['_default']
             ;
           $name:
         }
@@ -103,7 +106,7 @@ class sqlserver_mgmt (
   }
 
   # Create SQL User(s)
-  $sql_config['users'].each |$name, $attribs| {
+  $users.each |$name, $attribs| {
     if $name != '_default'{
       if $attribs != undef {
         # Emulate sqlserver module behavior: if 'login' is not specified, assume the user and login are the same
@@ -116,7 +119,7 @@ class sqlserver_mgmt (
         # Create the user with specified attributes
         sqlserver::user{
           default:
-            *       => $sql_config['users']['_default']
+            *       => $users['_default']
             ;
           $name:
             *       => delete($attribs, ['permissions']),
@@ -125,11 +128,11 @@ class sqlserver_mgmt (
       }
       else {
         # Emulate sqlserver module behavior: if 'login' is not specified, assume the user and login are the same
-        if $sql_config['users']['_default']['login'] != undef {
-          $sqllogin = $sql_config['users']['_default']['login']
+        if $users['_default']['login'] != undef {
+          $sqllogin = $users['_default']['login']
         }
         elsif $sql_config['users']['_default']['user'] != undef {
-          $sqllogin = $sql_config['users']['_default']['user']
+          $sqllogin = $users['_default']['user']
         }
         else {
           $sqllogin = $name
@@ -137,7 +140,7 @@ class sqlserver_mgmt (
         # Create the database with only default attributes
         sqlserver::user{
           default:
-            *       => $sql_config['users']['_default']
+            *       => $users['_default']
             ;
           $name:
             require  => Sqlserver::Login[$sqllogin]

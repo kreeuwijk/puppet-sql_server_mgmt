@@ -6,7 +6,8 @@
   "license": "Apache-2.0",
   "source": "https://github.com/kreeuwijk/puppet-sqlserver_mgmt",
   "dependencies": [
-
+      "name": "puppetlabs/sqlserver",
+      "version_requirement": ">= 2.1.1"
   ],
   "operatingsystem_support": [
     {

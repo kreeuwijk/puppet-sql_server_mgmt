@@ -6,7 +6,6 @@
 1. [Overview](#overview)
 2. [Description](#description)
 3. [Setup - The basics of getting started with sqlserver_mgmt](#setup)
-    * [What sqlserver_mgmt affects](#what-sqlserver_mgmt-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with sqlserver_mgmt](#beginning-with-sqlserver_mgmt)
 4. [Usage - Configuration options and additional functionality](#usage)
@@ -19,27 +18,15 @@ This sqlserver_mgmt module builds on top of the puppetlabs/sqlserver module to p
 
 ## Description
 
-Briefly tell users why they might want to use your module. Explain what your module does and what kind of problems users can solve with it.
-
-This should be a fairly short description helps the user decide if your module is what they want.
+While the puppetlabs/sqlserver module provided powerful capabilities to manage Microsoft SQL Server, it lacks the code to quickly define some managed SQL resources in Hiera and have them be enforced by Puppet. While you could write Puppet code for each resource (which is what the puppetlabs/sqlserver module basically makes you do), this isn't very efficient nor fool-proof. Instead, using this module, a few lines of configuration in Hiera are all that's needs to manage SQL databases, logins, users and permissions.
 
 ## Setup
 
-### What sqlserver_mgmt affects **OPTIONAL**
+### Setup Requirements
 
-If it's obvious what your module touches, you can skip this section. For example, folks can probably figure out that your mysql_instance module affects their MySQL instances.
+Make sure you have the puppetlabs/sqlserver module and it's dependencies installed, before using this module.
 
-If there's more that they should know about, though, this is the place to mention:
-
-* Files, packages, services, or operations that the module will alter, impact, or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
-
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled, another module, etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps for upgrading, you might want to include an additional "Upgrading" section here.
+By default, if you haven't created any configuration for this module in Hiera, this module will not enforce anything on your SQL servers.
 
 ### Beginning with sqlserver_mgmt
 

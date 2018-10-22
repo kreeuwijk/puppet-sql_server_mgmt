@@ -1,20 +1,21 @@
 
 # sqlserver_mgmt
 
-Welcome to your new module. A short overview of the generated parts can be found in the PDK documentation at https://puppet.com/pdk/latest/pdk_generating_modules.html .
-
-The README template below provides a starting point with details about what information to include in your README.
-
 #### Table of Contents
 
-1. [Description](#description)
-2. [Setup - The basics of getting started with sqlserver_mgmt](#setup)
+1. [Overview](#overview)
+2. [Description](#description)
+3. [Setup - The basics of getting started with sqlserver_mgmt](#setup)
     * [What sqlserver_mgmt affects](#what-sqlserver_mgmt-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with sqlserver_mgmt](#beginning-with-sqlserver_mgmt)
-3. [Usage - Configuration options and additional functionality](#usage)
-4. [Limitations - OS compatibility, etc.](#limitations)
-5. [Development - Guide for contributing to the module](#development)
+4. [Usage - Configuration options and additional functionality](#usage)
+5. [Limitations - OS compatibility, etc.](#limitations)
+6. [Development - Guide for contributing to the module](#development)
+
+## Overview
+
+This sqlserver_mgmt module builds on top of the puppetlabs/sqlserver module to provide the infrastructure as code needed to iterate over configuration in Hiera so you can easily manage resources on existing SQL servers (regardsless of whether Puppet was used to build the SQL server in the first place).
 
 ## Description
 

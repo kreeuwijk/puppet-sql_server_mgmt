@@ -71,7 +71,7 @@ DEALLOCATE MY_CURSOR
 
 DECLARE @restorestring NVARCHAR(1000)
 
-SET @restorestring = 'RESTORE DATABASE <%= $dbname %>
+SET @restorestring = 'RESTORE DATABASE [<%= $dbname %>]
 FROM disk= ''<%= $backupfile %>''
 WITH
 '

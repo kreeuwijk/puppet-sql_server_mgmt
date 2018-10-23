@@ -2,7 +2,7 @@ USE [master]
 
 DECLARE @backupstring NVARCHAR(1000)
 
-SET @backupstring = 'BACKUP DATABASE <%= $dbname %>
+SET @backupstring = 'BACKUP DATABASE [<%= $dbname %>]
 TO disk= ''<%= $backupfile %>''
 WITH FORMAT;'
 

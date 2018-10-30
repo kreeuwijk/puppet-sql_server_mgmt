@@ -30,11 +30,23 @@ By default, if you haven't created any configuration for this module in Hiera, t
 
 ### Beginning with sqlserver_mgmt
 
-The very basic steps needed for a user to get the module up and running. This can include setup steps, if necessary, or it can be an example of the most basic use of the module.
+To start managing resources on a SQL server, simply include the module in your profile:
+```puppet
+include sqlserver_mgmt
+```
 
 ## Usage
 
-Include usage examples for common use cases in the **Usage** section. Show your users how to use your module to solve problems, and be sure to include code examples. Include three to five examples of the most important or common tasks a user can accomplish with your module. Show users how to accomplish more complex tasks that involve different types, classes, and functions working in tandem.
+All SQL resources you wish to manage with this module, need to be defined in Hiera. The module uses Automatic Parameter Lookup to automatically get data from Hiera if you have defined it. You can use any Hiera hierarchy structure you want, just be aware that by default, Hiera will use a first-match lookup to find the configuration resources. If you need to combine different configuration settings from different Hiera levels for the same resource section, you will need to configure the lookup_options for that key in Hiera to change the lookup behavior.
+
+There are 4 main resource sections to work with:
+```puppet
+sqlserver_mgmt::configs       # This defines administrative access information for each SQL instance
+sqlserver_mgmt::databases     # This defines any databases you want to manage 
+sqlserver_mgmt::logins        # This defines any SQL logins you want to manage (can be Windows or SQL authentication)
+sqlserver_mgmt::users         # This defines any databases users you want to manage, and their database permissions
+```
+
 
 ## Reference
 

@@ -41,10 +41,13 @@ Any SQL resources you wish to manage with this module, should be defined in Hier
 
 There are 4 main resource sections to work with:
 ```puppet
-sqlserver_mgmt::configs       # This defines administrative access information for each SQL instance
-sqlserver_mgmt::databases     # This defines any databases you want to manage 
-sqlserver_mgmt::logins        # This defines any SQL logins you want to manage (can be Windows or SQL authentication)
-sqlserver_mgmt::users         # This defines any databases users you want to manage, and their database permissions
+sqlserver_mgmt::configs          # Defines administrative access info for each SQL instance
+sqlserver_mgmt::databases        # Defines any databases you want to manage 
+sqlserver_mgmt::logins           # Defines any SQL logins you want to manage
+sqlserver_mgmt::users            # Defines any db users you want to manage, including permissions
+sqlserver_mgmt::db_defaults      # Optional: defines default attributes for sqlserver_mgmt::databases
+sqlserver_mgmt::login_defaults   # Optional: defines default attributes for sqlserver_mgmt::logins
+sqlserver_mgmt::user_defaults    # Optional: defines default attributes for sqlserver_mgmt::users
 ```
 
 ## Reference

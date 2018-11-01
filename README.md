@@ -45,9 +45,12 @@ sqlserver_mgmt::configs          # Defines administrative access info for each S
 sqlserver_mgmt::databases        # Defines any databases you want to manage 
 sqlserver_mgmt::logins           # Defines any SQL logins you want to manage
 sqlserver_mgmt::users            # Defines any db users you want to manage, including permissions
-sqlserver_mgmt::db_defaults      # Optional: defines default attributes for sqlserver_mgmt::databases
-sqlserver_mgmt::login_defaults   # Optional: defines default attributes for sqlserver_mgmt::logins
-sqlserver_mgmt::user_defaults    # Optional: defines default attributes for sqlserver_mgmt::users
+```
+And 3 optional sections to easily set defaults:
+```puppet
+sqlserver_mgmt::db_defaults      # defines default attributes for sqlserver_mgmt::databases
+sqlserver_mgmt::login_defaults   # defines default attributes for sqlserver_mgmt::logins
+sqlserver_mgmt::user_defaults    # defines default attributes for sqlserver_mgmt::users
 ```
 
 ## Reference

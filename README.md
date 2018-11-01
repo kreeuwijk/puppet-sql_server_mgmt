@@ -9,8 +9,6 @@
     * [Setup requirements](#setup-requirements)
     * [Beginning with sqlserver_mgmt](#beginning-with-sqlserver_mgmt)
 4. [Usage - Configuration options and additional functionality](#usage)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
 
 ## Overview
 
@@ -53,41 +51,93 @@ sqlserver_mgmt::login_defaults   # defines default attributes for sqlserver_mgmt
 sqlserver_mgmt::user_defaults    # defines default attributes for sqlserver_mgmt::users
 ```
 
-## Reference
+Each of the 4 main sections allow you to dynamically create the respective SQL resource from the puppetlabs/sqlserver module. The supported attributes for each hash are the same as the attributes the puppetlabs/sqlserver module supports for the that respective resource.
 
-This section is deprecated. Instead, add reference information to your code as Puppet Strings comments, and then use Strings to generate a REFERENCE.md in your module. For details on how to add code comments and generate documentation with Strings, see the Puppet Strings [documentation](https://puppet.com/docs/puppet/latest/puppet_strings.html) and [style guide](https://puppet.com/docs/puppet/latest/puppet_strings_style.html)
-
-If you aren't ready to use Strings yet, manually create a REFERENCE.md in the root of your module directory and list out each of your module's classes, defined types, facts, functions, Puppet tasks, task plans, and resource types and providers, along with the parameters for each.
-
-For each element (class, defined type, function, and so on), list:
-
-  * The data type, if applicable.
-  * A description of what the element does.
-  * Valid values, if the data type doesn't make it obvious.
-  * Default value, if any.
-
-For example:
-
+For example if you configure this in Hiera:
+```puppet
+sqlserver_mgmt::configs:
+  MSSQLSERVER:
+    admin_login_type: SQL_LOGIN
+    admin_user: sa
+    admin_pass: password
 ```
-### `pet::cat`
-
-#### Parameters
-
-##### `meow`
-
-Enables vocalization in your cat. Valid options: 'string'.
-
-Default: 'medium-loud'.
+it will result in the following resource to be created:
+```puppet
+sqlserver::config { 'MSSQLSERVER':
+  admin_login_type => 'SQL_LOGIN',
+  admin_user       => 'sa',
+  admin_pass       => 'password',
+}
 ```
+With the sqlserver::config{'MSSQLSERVER'} resource, you are now able to connect to the MSSQLSERVER instance on the node and manage databases, logins and users.
 
-## Limitations
+Next, to manage databases, we can for example configure this in Hiera:
+```puppet
+sqlserver_mgmt::db_defaults:
+  compatibility: 130
+  instance: MSSQLSERVER
 
-In the Limitations section, list any incompatibilities, known issues, or other warnings.
+sqlserver_mgmt::databases:
+  Sales:
+    ensure: present
+    instance: MYOTHERSQLSERVER
+  Finance:
+    ensure: absent
+  Cortina:
+    ensure: present
+    compatibility: 120
+```
+and it will result in the following resources to be created:
+```puppet
+sqlserver::database{ 'Sales':
+  ensure         => present,
+  compatibility  => 130,
+  instance       => 'MYOTHERSQLSERVER',
+}
+sqlserver::database{ 'Finance':
+  ensure         => absent,
+  compatibility  => 130,
+  instance       => 'MSSQLSERVER',
+}
+sqlserver::database{ 'Cortina':
+  ensure         => present,
+  compatibility  => 120,
+  instance       => 'MSSQLSERVER',
+}
+```
+Of course to be able to manage the Sales database in this example, which lives on a different SQL instance, you'll need to add admin login credentials for MYOTHERSQLSERVER in `sqlserver_mgmt::configs`.
 
-## Development
+Managing logins works the same way:
+```puppet
+sqlserver_mgmt::login_defaults:
+  instance: MSSQLSERVER
+  login_type: WINDOWS_LOGIN
+  default_database: master
+  default_language: us_english
 
-In the Development section, tell other users the ground rules for contributing to your project and how they should submit their work.
-
-## Release Notes/Contributors/Etc. **Optional**
-
-If you aren't using changelog, put your release notes here (though you should consider using changelog). You can also add any additional sections you feel are necessary or important to include here. Please use the `## ` header.
+sqlserver_mgmt::logins:
+  MYDOMAIN\User1:
+  MYDOMAIN\User2:
+    svrroles:
+        dbcreator: 1
+        sysadmin:  0
+```
+will result in the following resources to be created:
+```puppet
+sqlserver::login{ 'MYDOMAIN\User1':
+  instance         => 'MSSQLSERVER',
+  login_type       => 'WINDOWS_LOGIN',
+  default_database => 'master',
+  default_language => 'us_english',
+}
+sqlserver::login{ 'MYDOMAIN\User2':
+  instance         => 'MSSQLSERVER',
+  login_type       => 'WINDOWS_LOGIN',
+  default_database => 'master',
+  default_language => 'us_english',
+  svrroles         => {
+    dbcreator => 1,
+    sysadmin  => 0,
+  }
+}
+```

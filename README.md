@@ -37,7 +37,7 @@ include sqlserver_mgmt
 
 ## Usage
 
-All SQL resources you wish to manage with this module, need to be defined in Hiera. The module uses Automatic Parameter Lookup to automatically get data from Hiera if you have defined it. You can use any Hiera hierarchy structure you want, just be aware that by default, Hiera will use a first-match lookup to find the configuration resources. If you need to combine different configuration settings from different Hiera levels for the same resource section, you will need to configure the lookup_options for that key in Hiera to change the lookup behavior.
+Any SQL resources you wish to manage with this module, should be defined in Hiera. The module uses Automatic Parameter Lookup to automatically get data from Hiera if you have defined it. You can use any Hiera hierarchy structure you want, just be aware that by default, Hiera will use a first-match lookup to find the configuration resources. If you need to combine different configuration settings from different Hiera levels for the same resource section, you will need to configure the [lookup_options](https://puppet.com/docs/puppet/6.0/hiera_merging.html#concept-2997) for that key in Hiera to change the lookup behavior to Hash or Deep (depending on your needs).
 
 There are 4 main resource sections to work with:
 ```puppet
@@ -46,7 +46,6 @@ sqlserver_mgmt::databases     # This defines any databases you want to manage
 sqlserver_mgmt::logins        # This defines any SQL logins you want to manage (can be Windows or SQL authentication)
 sqlserver_mgmt::users         # This defines any databases users you want to manage, and their database permissions
 ```
-
 
 ## Reference
 

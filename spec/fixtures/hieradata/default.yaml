@@ -1,43 +1,42 @@
 ---
-sql:
-  configs:
-    MSSQLSERVER:
-      admin_login_type: SQL_LOGIN
-      admin_user: sa
-      admin_pass: password
-  databases:
-    _default:
-      compatibility: 130
-      instance: MSSQLSERVER
-    Sales:
-    Finance:
-      compatibility: 120
-      ensure: present
-      template: profile/sql_server_mgmt/CortinaDB.sql.epp
-    Marketing:
-      compatibility: 120
-      ensure: present
-      restorefrom: 'E:\SQL_Backups\TestBackup.bak'
-  logins:
-    _default:
-      instance: MSSQLSERVER
-      login_type: WINDOWS_LOGIN
-      default_database: master
-      default_language: us_english
-    TEST\PuppetUser:
-      svrroles:
-        dbcreator: 1
-  users:
-    _default:
-      default_schema: dbo
-    Sales-Puppet_User:
-      user: Puppet_User
-      database: Sales
-      instance: MSSQLSERVER
-      login: TEST\PuppetUser
-      permissions:
-        grant:
-         - INSERT
-        deny:
-         - UPDATE
+sqlserver_mgmt::db_defaults:
+  collation_name: SQL_Latin1_General_CP1_CI_AS
+  compatibility: 130
+  instance: MSSQLSERVER
 
+sqlserver_mgmt::login_defaults:
+  instance: MSSQLSERVER
+  login_type: WINDOWS_LOGIN
+  default_database: master
+  default_language: us_english
+
+sqlserver_mgmt::user_defaults:
+  default_schema: dbo
+
+sqlserver_mgmt::databases:
+  Sales:
+    ensure: present
+  Finance:
+    ensure: present
+    restorefrom: 'E:\SQL_Backups\TestBackup.bak'
+  Cortina:
+    ensure: present
+    compatibility: 120
+    template: profile/sqlserver_mgmt/CortinaDB.sql.epp
+
+sqlserver_mgmt::logins:
+  RAZORDEMO\PuppetSE:
+    svrroles:
+        dbcreator: 1
+
+sqlserver_mgmt::users:
+  Sales-SE_User:
+    user: SE_User
+    database: Sales
+    instance: MSSQLSERVER
+    login: RAZORDEMO\PuppetSE
+    permissions:
+      grant:
+      - INSERT
+      deny:
+      - UPDATE

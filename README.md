@@ -16,7 +16,7 @@ This sqlserver_mgmt module builds on top of the puppetlabs/sqlserver module to p
 
 ## Description
 
-While the puppetlabs/sqlserver module provided powerful capabilities to manage Microsoft SQL Server, it lacks the code to quickly define some managed SQL resources in Hiera and have them be enforced by Puppet. While you could write Puppet code for each resource (which is what the puppetlabs/sqlserver module basically makes you do), this isn't very efficient nor fool-proof. Instead, using this module, a few lines of configuration in Hiera are all that's needs to manage SQL databases, logins, users and permissions.
+While the puppetlabs/sqlserver module provided powerful capabilities to manage Microsoft SQL Server, it lacks the code to quickly define some managed SQL resources in Hiera and have them be enforced by Puppet. While you could write Puppet code for each resource (which is what the puppetlabs/sqlserver module basically makes you do), this isn't very efficient nor fool-proof. Instead, using this module, a few lines of configuration in Hiera are all that's needed to manage SQL databases, logins, users and permissions.
 
 ## Setup
 
@@ -107,7 +107,7 @@ sqlserver::database{ 'Cortina':
 ```
 Of course to be able to manage the Sales database in this example, which lives on a different SQL instance, you'll need to add admin login credentials for MYOTHERSQLSERVER in `sqlserver_mgmt::configs`.
 
-Managing logins works the same way:
+Managing logins works the same way. Defining this in Hiera:
 ```puppet
 sqlserver_mgmt::login_defaults:
   instance: MSSQLSERVER

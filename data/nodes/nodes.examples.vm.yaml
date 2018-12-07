@@ -1,0 +1,48 @@
+---
+sqlserver_mgmt::configs:
+  MSSQLSERVER:
+    admin_login_type: SQL_LOGIN
+    admin_user: sa
+    admin_pass: password
+  MYSSQLINSTANCE:
+    admin_login_type: WINDOWS_LOGIN
+    #if you use WINDOWS_LOGIN, the account that Puppet Agent
+    #runs under will be used to login to SQL
+
+sqlserver_mgmt::databases:
+  Sales:
+    ensure: present
+    instance: MYSSQLINSTANCE
+  Finance:
+    ensure: absent
+  db_from_template:
+    ensure: present
+    compatibility: 120
+    template: profile/sqlserver_mgmt/CortinaDB.sql.epp
+    #the path provided for 'template' will be passed to the epp() function,
+    #so make sure it is a valid epp templates path!
+  db_to_backup:
+    ensure: present
+    backupto: 'E:\SQL_Backups\DB_Backup.bak'
+  db_to_restore:
+    ensure: present
+    restorefrom: 'E:\SQL_Backups\DB_Backup.bak'
+
+sqlserver_mgmt::logins:
+  MYDOMAIN\User1:
+  MYDOMAIN\User2:
+    svrroles:
+        dbcreator: 1
+        sysadmin:  0
+        
+sqlserver_mgmt::users:
+  Sales-User1:
+    user: User1
+    database: Sales
+    instance: MYSSQLINSTANCE
+    login: MYDOMAIN\PuppetSE
+    permissions:
+      grant:
+      - INSERT
+      deny:
+      - UPDATE

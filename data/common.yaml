@@ -3,31 +3,11 @@ sqlserver_mgmt::db_defaults:
   compatibility: 130
   instance: MSSQLSERVER
 
-sqlserver_mgmt::databases:
-  Sales:
-    ensure: present
-    instance: MYOTHERSQLSERVER
-  Finance:
-    ensure: absent
-  Cortina:
-    ensure: present
-    compatibility: 120
-
 sqlserver_mgmt::login_defaults:
   instance: MSSQLSERVER
   login_type: WINDOWS_LOGIN
   default_database: master
   default_language: us_english
 
-sqlserver_mgmt::logins:
-  MYDOMAIN\User1:
-  MYDOMAIN\User2:
-    svrroles:
-        dbcreator: 1
-        sysadmin:  0
-        
-sqlserver_mgmt::configs:
-  MSSQLSERVER:
-    admin_login_type: SQL_LOGIN
-    admin_user: sa
-    admin_pass: password
+sqlserver_mgmt::user_defaults:
+  default_schema: dbo

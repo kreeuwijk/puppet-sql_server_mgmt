@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'sql_server_mgmt' do
+describe 'sqlserver_mgmt' do
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }

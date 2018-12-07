@@ -3,5 +3,9 @@
 ---
 fixtures:
   forge_modules:
-     stdlib: "puppetlabs/stdlib"
-     sqlserver: "puppetlabs/sqlserver"
+    stdlib: "puppetlabs/stdlib"
+    #sqlserver: "puppetlabs/sqlserver" #licensed module use git
+  repositories:
+    sqlserver: "https://github.com/puppetlabs/puppetlabs-sqlserver.git"
+  symlinks:
+    sqlserver_mgmt: "#{source_dir}"

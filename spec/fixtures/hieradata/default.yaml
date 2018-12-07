@@ -16,9 +16,10 @@ sqlserver_mgmt::user_defaults:
 sqlserver_mgmt::databases:
   Sales:
     ensure: present
+    backupto: 'E:\SQL_Backups\SalesDB_Backup.bak'
   Finance:
     ensure: present
-    restorefrom: 'E:\SQL_Backups\TestBackup.bak'
+    restorefrom: 'E:\SQL_Backups\FinanceDB_Backup.bak'
   Cortina:
     ensure: present
     compatibility: 120
